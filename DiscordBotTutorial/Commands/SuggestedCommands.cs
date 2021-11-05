@@ -1,5 +1,6 @@
 ﻿using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
+using DSharpPlus.Entities;
 using DSharpPlus.Interactivity.Extensions;
 using System.Threading.Tasks;
 
@@ -37,13 +38,39 @@ namespace DiscordBotTutorial.Commands
         }
         [Command("ap")]
         [Description("Grants or Removes Announcement ping role.")]
-        public async Task AnnouncementPing(CommandContext ctx)
+
+        public async Task Join(CommandContext ctx)
         {
-            await ctx.TriggerTypingAsync();
-            System.Threading.Thread.Sleep(500);
-            await ctx.RespondAsync("Command still in progress. Please wait.").ConfigureAwait(false);
+            var apEmbed = new DiscordEmbedBuilder
+            {
+                Title = "Would you like to be pinged whenever there is an announcement? (You can always change this later!)",
+                Color = DiscordColor.Goldenrod
+            };
+
+            var joinMessage = await ctx.Channel.SendMessageAsync(embed: apEmbed).ConfigureAwait(false);
+
+            var thumbsUpEmoji = DiscordEmoji.FromName(ctx.Client, ":+1:");
+            var thumbsDownEmoji = DiscordEmoji.FromName(ctx.Client, ":-1:");
+
+            await joinMessage.CreateReactionAsync(thumbsUpEmoji).ConfigureAwait(false);
+            await joinMessage.CreateReactionAsync(thumbsDownEmoji).ConfigureAwait(false);
+
+            var interactivity = ctx.Client.GetInteractivity();
+
+            var reactionResult = await interactivity.WaitForReactionAsync(
+                x => x.Message == joinMessage &&
+                x.User == ctx.User &&
+                (x.Emoji == thumbsUpEmoji || x.Emoji == thumbsDownEmoji)).ConfigureAwait(false);
+
+            if (reactionResult.Result.Emoji == thumbsUpEmoji)
+            {
+                var role = ctx.Guild.GetRole(649318238165139495);
+                await ctx.Member.GrantRoleAsync(role).ConfigureAwait(false);
+            }
+
+            await joinMessage.DeleteAsync().ConfigureAwait(false);
         }
-        [Command("beta"), Description("This command is a placeholder for commands that need testing.")]
+[Command("beta"), Description("This command is a placeholder for commands that need testing.")]
         public async Task Beta(CommandContext ctx)
         {
 
