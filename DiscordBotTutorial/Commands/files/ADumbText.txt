@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Text;
+
+namespace DiscordBotTutorial.Commands.files
+{
+    public partial class ADumbText: Component
+    {    
+        public ADumbText()
+        {
+            InitializeComponent();
+        }
+
+        public ADumbText(IContainer container)
+        {
+            container.Add(this);
+
+            InitializeComponent();
+        }
+    }
+}
