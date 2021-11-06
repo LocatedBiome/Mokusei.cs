@@ -84,7 +84,7 @@ namespace DiscordBotTutorial.Commands
                 await ctx.RespondAsync("Nobody? Really?");
             }
         }
-        [Command("mcskin"), Description("Run this command, then in a new message, send a Minecraft users ign to see there skin")]
+        [Command("mcskin"), Aliases("fullbody", "fullbody/"),Description("Run this command, then in a new message, send a Minecraft users ign to see there skin")]
         public async Task Response(CommandContext ctx)
         {
             await ctx.RespondAsync($"Respond to this message with the Minecraft username of the skin you would like to see");
