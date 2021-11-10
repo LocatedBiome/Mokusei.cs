@@ -6,6 +6,7 @@ using DSharpPlus.Entities;
 using DSharpPlus.Interactivity.Extensions;
 using System;
 using System.Threading.Tasks;
+using DSharpPlus;
 
 namespace DiscordBotTutorial.Commands
 {
@@ -29,39 +30,20 @@ namespace DiscordBotTutorial.Commands
 
             else await ctx.RespondAsync("<https://discord.com/api/oauth2/authorize?client_id=873208721956806736&permissions=8&scope=bot>");
         }
-        
-        [Command("kick")]
-        public async Task KickAsync(CommandContext Context, IGuildUser user)
+        [Command]
+        [RequirePermissions(Permissions.Administrator)]
+        [RequireBotPermissions(Permissions.BanMembers)]
+        public async Task ban(CommandContext ctx, DiscordMember member, [RemainingText] string reason)
         {
-
-            var GuildUser = Context.User.Id;
-
-            if (!Context.Message.Author.Id.Equals(456594340148674562))
+            object MemberBan = " has been perminently banned";
+            await member.BanAsync(1, reason);
+            (string Mention, object MemberBan) User = (ctx.User.Mention, MemberBan);
+            var DiscordEmbed = new DiscordEmbedBuilder
             {
-                await Context.Message.DeleteAsync();
-                await Context.RespondAsync(":warning: `No permissions to kick players`");
-                return;
-            }
-            else
-            {
-                await user.KickAsync();
-                await Context.Channel.SendMessageAsync($":eye: `{user.Username} has been kicked from the server`");
-
-                var guild = Context.Guild;
-                var channel = guild.GetChannel(609086251978457098); //582790350620327952
-
-                EmbedBuilder builder = new EmbedBuilder();
-
-                builder.WithTitle("Logged Information")
-                    .AddField("User", $"{user.Mention}")
-                    .AddField("Moderator", $"{Context.User.Username}")
-                    .AddField("Other Information", "Can be invited back")
-                    .AddField("Command", $"``.kick {user.Username}``")
-                    .WithDescription($"This player has been kicked from {Context.Guild.Name} by {Context.User.Username}")
-
-                    .WithCurrentTimestamp()
-                    .WithColor(new Color(54, 57, 62));
-            }
+                Title = "Mokusei - Ban",
+                Description = User.ToString()
+            };
+            await ctx.RespondAsync(DiscordEmbed);
         }
     }
 }
