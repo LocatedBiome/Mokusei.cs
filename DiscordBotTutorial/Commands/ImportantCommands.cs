@@ -29,21 +29,20 @@ namespace DiscordBotTutorial.Commands
                 await ctx.RespondAsync("The bot is not public yet! You can ask LocatedReaper for permission, but he might not accept.");
 
             else await ctx.RespondAsync("<https://discord.com/api/oauth2/authorize?client_id=873208721956806736&permissions=8&scope=bot>");
-        }
-        [Command]
+        }/*/
+        [Command("ban")]
         [RequirePermissions(Permissions.Administrator)]
         [RequireBotPermissions(Permissions.BanMembers)]
         public async Task ban(CommandContext ctx, DiscordMember member, [RemainingText] string reason)
         {
             object MemberBan = " has been perminently banned";
             await member.BanAsync(1, reason);
-            (string Mention, object MemberBan) User = (ctx.User.Mention, MemberBan);
             var DiscordEmbed = new DiscordEmbedBuilder
             {
                 Title = "Mokusei - Ban",
-                Description = User.ToString()
+                Description = "<user.e"
             };
             await ctx.RespondAsync(DiscordEmbed);
-        }
+        }/*/
     }
 }
