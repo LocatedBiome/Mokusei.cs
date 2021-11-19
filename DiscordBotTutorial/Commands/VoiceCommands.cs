@@ -11,7 +11,7 @@ namespace DiscordBotTutorial.Commands
 {
     public class VoiceCommands : BaseCommandModule
     {
-        [Command("join"), Description("Joins a voice channel.")]
+        [Command("csjoin"), Description("Joins a voice channel.")]
         public async Task Join(CommandContext ctx, DiscordChannel chn = null)
         {
             await ctx.TriggerTypingAsync();
@@ -49,7 +49,7 @@ namespace DiscordBotTutorial.Commands
             await ctx.RespondAsync($"Connected to `{chn.Name}`").ConfigureAwait(false);
         }
 
-        [Command("leave"), Description("Leaves a voice channel.")]
+        [Command("csleave"), Description("Leaves a voice channel.")]
         public async Task Leave(CommandContext ctx)
         {
             await ctx.TriggerTypingAsync();
@@ -78,7 +78,7 @@ namespace DiscordBotTutorial.Commands
             await ctx.Channel.SendMessageAsync($"Bye <@{id}>").ConfigureAwait(false);
         }
 
-        [Command("play"), Description("Plays an audio file.")]
+        [Command("csplay"), Description("Plays an audio file.")]
         public async Task Play(CommandContext ctx, [RemainingText, Description("Full path to the file to play.")] string filename)
         {
             await ctx.TriggerTypingAsync();
