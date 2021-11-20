@@ -10,6 +10,13 @@ namespace DiscordBotTutorial.Commands
 {
     public class FunCommands : BaseCommandModule
     {
+        [Command("sussy")]
+        public async Task SUS(CommandContext ctx)
+        {
+            await ctx.TriggerTypingAsync();
+            System.Threading.Thread.Sleep(200);
+            await ctx.RespondAsync("SUSSY IMPOSTER").ConfigureAwait(false);
+        }
         [Command("ping")]
         [Description("Ok, seriously. How don't you know what this does. You run the command &ping and I will simply respond with Pong.")]
         public async Task Ping(CommandContext ctx)
